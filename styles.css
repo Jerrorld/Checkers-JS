@@ -1,0 +1,17 @@
+
+
+.cell  {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+}
+
+.black {
+    background-color: black;
+}
+
+.red {
+    background-color: indianred;
+}
+
