@@ -10,3 +10,169 @@ let board = [
     null, 16, null, 17, null, 18, null, 19,
     20, null, 21, null, 22, null, 23, null
 ]
+
+const cells = document.querySelectorAll(".cell");
+let redPieces = document.querySelectorAll(".red-checker");
+let blackPieces = document.querySelectorAll(".black-checker");
+const redTurnText = document.querySelectorAll(".red-turn-text");
+const blackTurnText = document.querySelectorAll(".black-turn-text");
+const divider = document.getElementById("divider");
+
+//properties player
+let turn = true;
+let redScore = 12;
+let blackScore =12;
+let playerPieces;
+
+let selectedPiece = {
+    pieceId: -1,
+    indexOfBoardPiece: -1,
+    isKing: false,
+    seventhSpace: false,
+    ninthSpace: false,
+    fourteenthSpace: false,
+    eighteenthSpace: false,
+    minusSeventhSpace: false,
+    minusNinthSpace: false,
+    minusFourteenthSpace: false,
+    minusEighteenthSpace: false
+}
+
+
+//initialize event listeners on pieces
+function givePiecesEventListeners() {
+    if (turn) {
+        for (let i = 0; i < redPieces.length; i++) {
+            redPieces[i].addEventListener("click", getPlayerPieces);
+        }
+    } else {
+        for (let i = 0; i <blackPieces.length; i++) {
+            blackPieces[i].addEventListener("click", getPlayerPieces);
+        }
+    }
+}
+
+//holds the length of the players piece count
+function getPlayerPieces() {
+    if (turn) {
+        playerPieces = redPieces;
+    } else {
+        playerPieces = blackPieces;
+    }
+    removeCellonclick();
+    resetBorders();
+}
+
+function removeCellonclick() {
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].removeAttribute("onclick");
+    }
+}
+
+
+function resetBorders() {
+    for (let i = 0; i <playerPieces.length; i++) {
+        playerPieces[i].style.border = "1px solid white"
+    }
+    resetSelectedPieceProperties();
+    getSelectedPiece();
+}
+
+function resetSelectedPieceProperties() {
+    selectedPiece.pieceId = -1;
+    selectedPiece.indexOfBoardPiece = -1;
+    selectedPiece.isKing = false;
+    selectedPiece.seventhSpace = false;
+    selectedPiece.ninthSpace = false;
+    selectedPiece.fourteenthSpace = false;
+    selectedPiece.eighteenthSpace = false;
+    selectedPiece.minusSeventhSpace = false;
+    selectedPiece.minusNinthSpace = false;
+    selectedPiece.minusFourteenthSpace = false;
+    selectedPiece.minusEighteenthSpace = false;
+}
+
+
+function getSelectedPiece() {
+    selectedPiece.pieceId = parseInt(event.target.id);
+    selectedPiece.indexOfBoardPiece = findPiece(selectedPiece.pieceId);
+    isPieceKing();
+}
+
+let findPiece = function (pieceId) {
+    let parsed = parseInt(pieceId);
+    return board.indexOf(parsed);
+};
+
+function isPieceKing() {
+    if (document.getElementById(selectedPiece.pieceId).classList.contains("king")) {
+        selectedPiece.isKing = true;
+    } else {
+        selectedPiece.isKing = false;
+    }
+    getAvailableSpaces();
+}
+
+function getAvailableSpaces() {
+    if (board[selectedPiece.indexOfBoardPiece + 7] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 7].classList.contains("empty") !== true) {
+        selectedPiece.seventhSpace = true;
+    }
+    if  (board[selectedPiece.indexOfBoardPiece + 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 9].classList.contains("empty") !== true) {
+        selectedPiece.seventhSpace = true;
+    }
+    if (board[selectedPiece.indexOfBoardPiece - 7] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 7].classList.contains("empty") !== true) {
+        selectedPiece.seventhSpace = true;
+    }
+    if  (board[selectedPiece.indexOfBoardPiece - 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 9].classList.contains("empty") !== true) {
+        selectedPiece.seventhSpace = true;
+    }
+    checkAvailableJumpSpaces();
+}
+
+function checkAvailableJumpSpaces() {
+    if (turn) {
+        if (board[selectedPiece.indexOfBoardPiece + 14] === null
+            && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("empty") !== true
+            && board[selectedPiece.indexOfBoardPiece + 7] >= 12) {
+                selectedPiece.fourteenthSpace = true;
+            }
+    } else {
+        if (board[selectedPiece.indexOfBoardPiece + 14] === null
+            && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("empty") !== true
+            && board[selectedPiece.indexOfBoardPiece + 7] < 12 && board[selectedPiece.indexOfBoardPiece + 7] !== null) {
+                selectedPiece.fourteenthSpace = true;
+            }
+    }
+}
+
+function checkPieceConditions() {
+    if (selectedPiece.isKing) {
+        givePieceBorder();
+    } else {
+        if (turn) {
+            selectedPiece.minusSeventhSpace = false;
+            selectedPiece.minusNinthSpace = false;
+            selectedPiece.minusFourteenthSpace = false;
+            selectedPiece.minusEighteenthSpace = false;
+        } else {
+            selectedPiece.seventhSpace = false;
+            selectedPiece.ninthSpace = false;
+            selectedPiece.fourteenthSpace = false;
+            selectedPiece.eighteenthSpace = false;
+        }
+        givePieceBorder();
+    }
+}
+
+function givePieceBorder() {
+    if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace 
+        || selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace)
+        document.getElementById(selectedPiece.pieceId).style.border = "3px solid green";
+        giveCellsClick();
+    } else {
+    return;
+}
