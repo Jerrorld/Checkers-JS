@@ -15,3 +15,25 @@
     background-color: indianred;
 }
 
+.checker {
+    margin: 10px;
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+}
+
+.red-checker {
+    background-color: aliceblue;
+}
+
+.black-checker {
+    background-color: burlywood;
+}
+
+.king.red-checker {
+    background-color: red;
+}
+
+.king.black-checker {
+    background-color: blueviolet;
+}
