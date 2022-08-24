@@ -170,9 +170,145 @@ function checkPieceConditions() {
 
 function givePieceBorder() {
     if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace 
-        || selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace)
+        || selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace) {
         document.getElementById(selectedPiece.pieceId).style.border = "3px solid green";
         giveCellsClick();
     } else {
-    return;
+        return;
+    }
 }
+
+function giveCellsClick() {
+    if (selectedPiece.seventhSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 7].setAttribute("onclick", "makeMove(7)");
+    }
+    if (selectedPiece.ninthSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 9].setAttribute("onclick", "makeMove(9)");
+    }
+    if (selectedPiece.fourteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 14].setAttribute("onclick", "makeMove(14)");
+    }
+    if (selectedPiece.eighteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 18].setAttribute("onclick", "makeMove(18)");
+    }
+    if (selectedPiece.minusSeventhSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 7].setAttribute("onclick", "makeMove(-7)");
+    }
+    if (selectedPiece.minusNinthSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 9].setAttribute("onclick", "makeMove-(9)");
+    }
+    if (selectedPiece.minusFourteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 14].setAttribute("onclick", "makeMove(-14)");
+    }
+    if (selectedPiece.minusEighteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 18].setAttribute("onclick", "makeMove(-18)");
+    }
+}
+
+
+// might have to change divs into a table for the board
+function makeMove(number) {
+    document.getElementById(selectedPiece.pieceId).remove();
+    cells[selectedPiece.indexOfBoardPiece].innerHTML = "";
+    if (turn) {
+        if (selectedPiece.isKing) {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class="red-piece king" id="${selectedPiece.pieceId}"></p>`;
+            redPieces = document.querySelectorAll(".red-checker")
+        } else {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class="red-piece" id="${selectedPiece.pieceId}"></p>`;
+            redPieces = document.querySelectorAll(".red-checker")
+        }
+    } else {
+        if (selectedPiece.isKing) {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<span class="black-piece king" id="${selectedPiece.pieceId}"></span>`;
+            blackPieces = document.querySelectorAll(".black-checker");
+        } else {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<span class="black-piece" id="${selectedPiece.pieceId}"></span>`;
+            blackPieces = document.querySelectorAll(".black-checker");
+        }
+    }
+
+    let indexOfPiece = selectedPiece.indexOfBoardPiece
+    if (number ===14 || number === -14 || number === 18 || number === -18) {
+        changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
+    } else {
+        changeData(indexOfPiece, indexOfPiece + number);
+    }
+}
+
+
+function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
+    board[indexOfBoardPiece] = null;
+    board[modifiedIndex] = parseInt(selectedPiece.pieceId);
+    if (turn && selectedPiece.pieceId < 12 && modifiedIndex >= 57) {
+        document.getElementById(selectedPiece.pieceId).classList.add("king");
+    }
+    if (turn === false && selectedPiece.pieceId >= 12 && modifiedIndex <= 7) {
+        document.getElementById(selectedPiece.pieceId).classList.add("king");
+    }
+    if (removePiece) {
+        board[removePiece] = null;
+        if (turn && selectedPiece.pieceId < 12) {
+            cells[removePiece].innerHTML = "";
+            blackScore--
+        }
+        if (turn === false && selectedPiece.pieceId >= 12) {
+            cells[removePiece].innerHTML = "";
+            redScore--
+        }
+    }
+    resetSelectedPieceProperties();
+    removeCellonclick();
+    removeEventListener();
+}
+
+function removeEventListener() {
+    if (turn) {
+        for (let i = 0; i < redPieces.length; i++) {
+            redPieces[i].removeEventListener("click", getPlayerPieces);
+        }
+    } else {
+        for (let i = 0; i < blackPieces.length; i++) {
+            blackPieces[i].removeEventListener("click", getPlayerPieces);
+        }
+    }
+    checkForWin();
+}
+// loop might not be necessary
+function checkForWin() {
+    if (blackScore === 0) {
+        divider.style.display = "none";
+        for (let i = 0; i < redTurnText.length; i++) {
+            redTurnText[i].style.color = "black";
+            blackTurnText[i].style.display = "none";
+            redTurnText[i].textContent = "RED WINS!";
+        }
+    } else if (redScore === 0) {
+        divider.style.display = "none";
+        for (let i = 0; i < blackTurnText.length; i++) {
+            blackTurnText[i].style.color = "black";
+            redTurnText[i].style.display = "none";
+            blackTurnText[i].textContent = "BLACK WINS!"
+        }
+    }
+    changePlayer();
+}
+
+function changePlayer() {
+    if (turn) {
+        turn = false;
+        for (let i = 0; i < redTurnText.length; i++) {
+            redTurnText[i].style.color = "lightGrey";
+            blackTurnText[i].style.color = "black";
+        }
+    } else {
+        turn = true;
+        for (let i = 0; i < blackTurnText.length; i++) {
+            blackTurnText[i].style.color = "lightGrey";
+            redTurnText[i].style.color = "black";
+        }
+    }
+    givePiecesEventListeners();
+}
+
+givePiecesEventListeners();

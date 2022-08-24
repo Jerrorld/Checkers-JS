@@ -22,13 +22,13 @@
     width: 80px;
 }
 
-.red-checker {
+/* .red-checker {
     background-color: aliceblue;
-}
+} */
 
-.black-checker {
+/* .black-checker {
     background-color: burlywood;
-}
+} */
 
 .king.red-checker {
     background-color: red;
@@ -36,4 +36,15 @@
 
 .king.black-checker {
     background-color: blueviolet;
+}
+
+td {
+    background-color: aqua;
+    width: 65px;
+    height: 65px;
+    text-align: center;
+}
+
+.empty {
+    background-color: azure;
 }
