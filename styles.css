@@ -1,50 +1,85 @@
-
-
-.cell  {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    margin: 0px;
+* {
+    margin: auto;
 }
 
-.black {
-    background-color: black;
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background-color: lightslategrey;
 }
 
-.red {
-    background-color: indianred;
+div {
+    display: flex;
+    justify-content: space-between;
 }
 
-.checker {
-    margin: 10px;
-    border-radius: 50%;
-    height: 80px;
-    width: 80px;
-}
-
-/* .red-checker {
-    background-color: aliceblue;
-} */
-
-/* .black-checker {
-    background-color: burlywood;
-} */
-
-.king.red-checker {
-    background-color: red;
-}
-
-.king.black-checker {
-    background-color: blueviolet;
+.noPieceHere {
+    background-color: #ffffec;
 }
 
 td {
-    background-color: aqua;
+    text-align: center;
+    background-color: #4b6dda;
     width: 65px;
     height: 65px;
-    text-align: center;
 }
 
-.empty {
-    background-color: azure;
+.red-turn-text {
+    text-align: center;
+    color: black;
+    font-family: "open sans";
+    font-size: 55px;
 }
+
+.black-turn-text {
+    text-align: center;
+    font-family: "open sans";
+    font-size: 55px;
+    color: lightgray;
+}
+
+.black-piece {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: black;
+    background-image: url(./wattson-face1.png);
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.red-piece {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: red;
+    background-image: url(./octane-face.png);
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.king.red-piece {
+    background-color: orange;
+}
+
+.king.black-piece {
+    background-color: purple;
+}
+
+p {
+    display: inline-block;
+}
+
+#divider {
+    font-size: 90px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+span {
+    display: inline-block;
+}
+

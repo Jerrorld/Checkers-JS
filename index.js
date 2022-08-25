@@ -11,9 +11,11 @@ let board = [
     20, null, 21, null, 22, null, 23, null
 ]
 
-const cells = document.querySelectorAll(".cell");
-let redPieces = document.querySelectorAll(".red-checker");
-let blackPieces = document.querySelectorAll(".black-checker");
+
+
+const cells = document.querySelectorAll("td");
+let redPieces = document.querySelectorAll("p");
+let blackPieces = document.querySelectorAll("span");
 const redTurnText = document.querySelectorAll(".red-turn-text");
 const blackTurnText = document.querySelectorAll(".black-turn-text");
 const divider = document.getElementById("divider");
@@ -46,7 +48,7 @@ function givePiecesEventListeners() {
             redPieces[i].addEventListener("click", getPlayerPieces);
         }
     } else {
-        for (let i = 0; i <blackPieces.length; i++) {
+        for (let i = 0; i < blackPieces.length; i++) {
             blackPieces[i].addEventListener("click", getPlayerPieces);
         }
     }
@@ -71,7 +73,7 @@ function removeCellonclick() {
 
 
 function resetBorders() {
-    for (let i = 0; i <playerPieces.length; i++) {
+    for (let i = 0; i < playerPieces.length; i++) {
         playerPieces[i].style.border = "1px solid white"
     }
     resetSelectedPieceProperties();
@@ -80,7 +82,6 @@ function resetBorders() {
 
 function resetSelectedPieceProperties() {
     selectedPiece.pieceId = -1;
-    selectedPiece.indexOfBoardPiece = -1;
     selectedPiece.isKing = false;
     selectedPiece.seventhSpace = false;
     selectedPiece.ninthSpace = false;
@@ -115,38 +116,69 @@ function isPieceKing() {
 
 function getAvailableSpaces() {
     if (board[selectedPiece.indexOfBoardPiece + 7] === null &&
-        cells[selectedPiece.indexOfBoardPiece + 7].classList.contains("empty") !== true) {
+        cells[selectedPiece.indexOfBoardPiece + 7].classList.contains("noPieceHere") !== true) {
         selectedPiece.seventhSpace = true;
     }
-    if  (board[selectedPiece.indexOfBoardPiece + 9] === null &&
-        cells[selectedPiece.indexOfBoardPiece + 9].classList.contains("empty") !== true) {
-        selectedPiece.seventhSpace = true;
+    if (board[selectedPiece.indexOfBoardPiece + 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 9].classList.contains("noPieceHere") !== true) {
+        selectedPiece.ninthSpace = true;
     }
     if (board[selectedPiece.indexOfBoardPiece - 7] === null &&
-        cells[selectedPiece.indexOfBoardPiece - 7].classList.contains("empty") !== true) {
-        selectedPiece.seventhSpace = true;
+        cells[selectedPiece.indexOfBoardPiece - 7].classList.contains("noPieceHere") !== true) {
+        selectedPiece.minusSeventhSpace = true;
     }
-    if  (board[selectedPiece.indexOfBoardPiece - 9] === null &&
-        cells[selectedPiece.indexOfBoardPiece - 9].classList.contains("empty") !== true) {
-        selectedPiece.seventhSpace = true;
+    if (board[selectedPiece.indexOfBoardPiece - 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 9].classList.contains("noPieceHere") !== true) {
+        selectedPiece.minusNinthSpace = true;
     }
     checkAvailableJumpSpaces();
 }
 
 function checkAvailableJumpSpaces() {
     if (turn) {
-        if (board[selectedPiece.indexOfBoardPiece + 14] === null
-            && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("empty") !== true
-            && board[selectedPiece.indexOfBoardPiece + 7] >= 12) {
-                selectedPiece.fourteenthSpace = true;
-            }
+        if (board[selectedPiece.indexOfBoardPiece + 14] === null 
+        && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece + 7] >= 12) {
+            selectedPiece.fourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece + 18] === null 
+        && cells[selectedPiece.indexOfBoardPiece + 18].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece + 9] >= 12) {
+            selectedPiece.eighteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 14] === null 
+        && cells[selectedPiece.indexOfBoardPiece - 14].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece - 7] >= 12) {
+            selectedPiece.minusFourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 18] === null 
+        && cells[selectedPiece.indexOfBoardPiece - 18].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece - 9] >= 12) {
+            selectedPiece.minusEighteenthSpace = true;
+        }
     } else {
-        if (board[selectedPiece.indexOfBoardPiece + 14] === null
-            && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("empty") !== true
-            && board[selectedPiece.indexOfBoardPiece + 7] < 12 && board[selectedPiece.indexOfBoardPiece + 7] !== null) {
-                selectedPiece.fourteenthSpace = true;
-            }
+        if (board[selectedPiece.indexOfBoardPiece + 14] === null 
+        && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece + 7] < 12 && board[selectedPiece.indexOfBoardPiece + 7] !== null) {
+            selectedPiece.fourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece + 18] === null 
+        && cells[selectedPiece.indexOfBoardPiece + 18].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece + 9] < 12 && board[selectedPiece.indexOfBoardPiece + 9] !== null) {
+            selectedPiece.eighteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 14] === null && cells[selectedPiece.indexOfBoardPiece - 14].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece - 7] < 12 
+        && board[selectedPiece.indexOfBoardPiece - 7] !== null) {
+            selectedPiece.minusFourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 18] === null && cells[selectedPiece.indexOfBoardPiece - 18].classList.contains("noPieceHere") !== true
+        && board[selectedPiece.indexOfBoardPiece - 9] < 12
+        && board[selectedPiece.indexOfBoardPiece - 9] !== null) {
+            selectedPiece.minusEighteenthSpace = true;
+        }
     }
+    checkPieceConditions();
 }
 
 function checkPieceConditions() {
@@ -213,23 +245,23 @@ function makeMove(number) {
     if (turn) {
         if (selectedPiece.isKing) {
             cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class="red-piece king" id="${selectedPiece.pieceId}"></p>`;
-            redPieces = document.querySelectorAll(".red-checker")
+            redPieces = document.querySelectorAll("p");
         } else {
             cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class="red-piece" id="${selectedPiece.pieceId}"></p>`;
-            redPieces = document.querySelectorAll(".red-checker")
+            redPieces = document.querySelectorAll("p");
         }
     } else {
         if (selectedPiece.isKing) {
             cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<span class="black-piece king" id="${selectedPiece.pieceId}"></span>`;
-            blackPieces = document.querySelectorAll(".black-checker");
+            blackPieces = document.querySelectorAll("span");
         } else {
             cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<span class="black-piece" id="${selectedPiece.pieceId}"></span>`;
-            blackPieces = document.querySelectorAll(".black-checker");
+            blackPieces = document.querySelectorAll("span");
         }
     }
 
     let indexOfPiece = selectedPiece.indexOfBoardPiece
-    if (number ===14 || number === -14 || number === 18 || number === -18) {
+    if (number === 14 || number === -14 || number === 18 || number === -18) {
         changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
     } else {
         changeData(indexOfPiece, indexOfPiece + number);
@@ -300,12 +332,16 @@ function changePlayer() {
         for (let i = 0; i < redTurnText.length; i++) {
             redTurnText[i].style.color = "lightGrey";
             blackTurnText[i].style.color = "black";
+            blackTurnText[i].style.boxShadow = "0 0 10px red";
+            redTurnText[i].style.boxShadow = "none";
         }
     } else {
         turn = true;
         for (let i = 0; i < blackTurnText.length; i++) {
             blackTurnText[i].style.color = "lightGrey";
             redTurnText[i].style.color = "black";
+            redTurnText[i].style.boxShadow = "0 0 10px red";
+            blackTurnText[i].style.boxShadow = "none";
         }
     }
     givePiecesEventListeners();
