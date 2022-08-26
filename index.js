@@ -3,7 +3,8 @@
 // let start = document.createElement("div");
 // start.setAttribute("id", "start");
 
-
+var chime1 = new Audio("./chime1.wav");
+var chime2 = new Audio("./chime2.wav");
 
 let start = document.getElementById("start")
 let button = document.querySelector("button")
@@ -217,7 +218,7 @@ function checkPieceConditions() {
 function givePieceBorder() {
     if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace 
         || selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace) {
-        document.getElementById(selectedPiece.pieceId).style.border = "3px solid green";
+        document.getElementById(selectedPiece.pieceId).style.boxShadow = "0 0 15px yellow";
         giveCellsClick();
     } else {
         return;
@@ -333,7 +334,7 @@ function checkForWin() {
         for (let i = 0; i < blackTurnText.length; i++) {
             blackTurnText[i].style.color = "black";
             redTurnText[i].style.display = "none";
-            blackTurnText[i].textContent = "BLACK WINS!"
+            blackTurnText[i].textContent = "BLUE WINS!"
         }
     }
     changePlayer();
@@ -344,17 +345,23 @@ function changePlayer() {
         turn = false;
         for (let i = 0; i < redTurnText.length; i++) {
             redTurnText[i].style.color = "lightGrey";
+            redTurnText[i].style.opacity = ".2";
+            blackTurnText[i].style.opacity = "1";
             blackTurnText[i].style.color = "black";
-            blackTurnText[i].style.boxShadow = "0 0 10px red";
+            blackTurnText[i].style.boxShadow = "5px 5px 0 black";
             redTurnText[i].style.boxShadow = "none";
+            chime1.play();
         }
     } else {
         turn = true;
         for (let i = 0; i < blackTurnText.length; i++) {
             blackTurnText[i].style.color = "lightGrey";
+            blackTurnText[i].style.opacity = ".2";
+            redTurnText[i].style.opacity = "1";
             redTurnText[i].style.color = "black";
-            redTurnText[i].style.boxShadow = "0 0 10px red";
+            redTurnText[i].style.boxShadow = "-5px 5px 0 black";
             blackTurnText[i].style.boxShadow = "none";
+            chime2.play();
         }
     }
     givePiecesEventListeners();
