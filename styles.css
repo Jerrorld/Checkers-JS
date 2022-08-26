@@ -83,3 +83,30 @@ span {
     display: inline-block;
 }
 
+#board-container {
+    background-color: black;
+}
+
+#start {
+    position: fixed;
+    left: 10%;
+    top: 25%;
+    height: 60%;
+    width: 85%;
+    margin-right: auto;
+    background-color: blanchedalmond;
+    text-align: center;
+    border: 4px solid burlywood;
+    display: block;
+}
+
+#start button {
+    height: 20%;
+    width: 10%;
+    font-size: 35px;
+    margin-top: 10%;
+}
+
+#startP {
+    font-size: 10vh;
+}

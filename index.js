@@ -1,3 +1,17 @@
+// var myMusic = new sound("pianoloop.mp3");
+
+// let start = document.createElement("div");
+// start.setAttribute("id", "start");
+
+
+
+let start = document.getElementById("start")
+let button = document.querySelector("button")
+button.addEventListener("click", function() {
+    start.remove()
+    var myMusic = new Audio("./pianoloop.mp3");
+    myMusic.play();
+})
 
 
 let board = [
@@ -237,8 +251,7 @@ function giveCellsClick() {
     }
 }
 
-
-// might have to change divs into a table for the board
+// how the pieces decide to move
 function makeMove(number) {
     document.getElementById(selectedPiece.pieceId).remove();
     cells[selectedPiece.indexOfBoardPiece].innerHTML = "";
