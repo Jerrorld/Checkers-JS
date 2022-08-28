@@ -8,7 +8,8 @@ main {
     justify-content: space-between;
     align-items: center;
     height: 100vh;
-    background-color: lightslategrey;
+    background-image: url(./assets/images/GoTBG.png);
+    background-position: 50%;
 }
 
 div {
@@ -17,14 +18,14 @@ div {
 }
 
 .noPieceHere {
-    background-color: #ffffec;
+    background-color: #ecef9d;
 }
 
 td {
     text-align: center;
-    background-color: #4b6dda;
-    width: 65px;
-    height: 65px;
+    background-color: #4799bc;
+    width: 70px;
+    height: 70px;
 }
 
 .red-turn-text {
@@ -42,7 +43,6 @@ td {
     font-size: 55px;
     color: lightgray;
     padding: 15px 20px 15px 0;
-    /* box-shadow: 5px 5px black; */
     opacity: .2;
 }
 
@@ -51,8 +51,7 @@ td {
     height: 20px;
     padding: 12px;
     background-color: black;
-    background-image: url(./wattson-face1.png);
-    border: 1px solid white;
+    border: 3px solid black;
     border-radius: 50px;
 }
 
@@ -61,17 +60,18 @@ td {
     height: 20px;
     padding: 12px;
     background-color: red;
-    background-image: url(./octane-face.png);
-    border: 1px solid white;
+    border: 3px solid black;
     border-radius: 50px;
 }
 
 .king.red-piece {
     background-color: orange;
+    background-image: url(./assets/images/crownn.png);
 }
 
 .king.black-piece {
     background-color: purple;
+    background-image: url(./assets/images/crownn.png);
 }
 
 p {
@@ -114,4 +114,28 @@ span {
 
 #startP {
     font-size: 10vh;
+}
+
+#red {
+    font-size: 100px;
+    padding-top: 100px;
+}
+
+.rainbow_text_animated {
+    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 6s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+
+@keyframes rainbow_animation {
+    0%,100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
 }

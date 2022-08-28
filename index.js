@@ -1,16 +1,34 @@
-// var myMusic = new sound("pianoloop.mp3");
+var chime1 = new Audio("./assets/sounds/chime1.wav");
+var chime2 = new Audio("./assets/sounds/chime2.wav");
+    chime1.volume = 0.4;
+    chime2.volume = 0.4;
+var myMusic = new Audio("./assets/sounds/pianoloop.mp3");
+    myMusic.volume = 0.7;
+var isPlaying = false;
 
-// let start = document.createElement("div");
-// start.setAttribute("id", "start");
+function togglePlay() {
+  isPlaying ? myMusic.pause() : myMusic.play();
+};
 
-var chime1 = new Audio("./chime1.wav");
-var chime2 = new Audio("./chime2.wav");
+let toggle = document.getElementById("sound-toggle")
+
+myMusic.onplaying = function() {
+  isPlaying = true;
+  var volume = document.getElementById("sound");
+};
+myMusic.onpause = function() {
+  isPlaying = false;
+};
+
+var victory = new Audio("./assets/sounds/victory.wav");
+    victory.volume = 0.3;
+
+let winnerRed = document.getElementById("victory")
 
 let start = document.getElementById("start")
 let button = document.querySelector("button")
 button.addEventListener("click", function() {
     start.remove()
-    var myMusic = new Audio("./pianoloop.mp3");
     myMusic.play();
 })
 
@@ -89,7 +107,8 @@ function removeCellonclick() {
 
 function resetBorders() {
     for (let i = 0; i < playerPieces.length; i++) {
-        playerPieces[i].style.border = "1px solid white"
+        playerPieces[i].style.border = "3px solid black"
+        playerPieces[i].style.boxShadow = "none"
     }
     resetSelectedPieceProperties();
     getSelectedPiece();
@@ -218,7 +237,7 @@ function checkPieceConditions() {
 function givePieceBorder() {
     if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace 
         || selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace) {
-        document.getElementById(selectedPiece.pieceId).style.boxShadow = "0 0 15px yellow";
+        document.getElementById(selectedPiece.pieceId).style.boxShadow = "0 0 15px red";
         giveCellsClick();
     } else {
         return;
@@ -242,7 +261,7 @@ function giveCellsClick() {
         cells[selectedPiece.indexOfBoardPiece - 7].setAttribute("onclick", "makeMove(-7)");
     }
     if (selectedPiece.minusNinthSpace) {
-        cells[selectedPiece.indexOfBoardPiece - 9].setAttribute("onclick", "makeMove-(9)");
+        cells[selectedPiece.indexOfBoardPiece - 9].setAttribute("onclick", "makeMove(-9)");
     }
     if (selectedPiece.minusFourteenthSpace) {
         cells[selectedPiece.indexOfBoardPiece - 14].setAttribute("onclick", "makeMove(-14)");
@@ -286,7 +305,7 @@ function makeMove(number) {
 function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
     board[indexOfBoardPiece] = null;
     board[modifiedIndex] = parseInt(selectedPiece.pieceId);
-    if (turn && selectedPiece.pieceId < 12 && modifiedIndex >= 57) {
+    if (turn && selectedPiece.pieceId < 12 && modifiedIndex >= 56) {
         document.getElementById(selectedPiece.pieceId).classList.add("king");
     }
     if (turn === false && selectedPiece.pieceId >= 12 && modifiedIndex <= 7) {
@@ -320,26 +339,37 @@ function removeEventListener() {
     }
     checkForWin();
 }
-// loop might not be necessary
+
+// creates win 
 function checkForWin() {
     if (blackScore === 0) {
         divider.style.display = "none";
         for (let i = 0; i < redTurnText.length; i++) {
             redTurnText[i].style.color = "black";
+            blackTurnText[i].style.color = "black";
             blackTurnText[i].style.display = "none";
             redTurnText[i].textContent = "RED WINS!";
+            redTurnText[i].style.boxShadow = "5px 5px 0 black, -5px -5px 0 black";
+            redTurnText[i].classList.add("rainbow_text_animated")
+            victory.play();
         }
     } else if (redScore === 0) {
         divider.style.display = "none";
         for (let i = 0; i < blackTurnText.length; i++) {
             blackTurnText[i].style.color = "black";
+            redTurnText[i].style.color="black"
             redTurnText[i].style.display = "none";
-            blackTurnText[i].textContent = "BLUE WINS!"
+            blackTurnText[i].textContent = "BLACK WINS!";
+            blackTurnText[i].style.boxShadow = "5px 5px 0 black, -5px -5px 0 black";
+            blackTurnText[i].classList.add("rainbow_text_animated")
+            victory.play()
         }
-    }
+    } else {
     changePlayer();
+    }
 }
 
+// shows who's turn it is
 function changePlayer() {
     if (turn) {
         turn = false;
