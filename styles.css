@@ -65,12 +65,12 @@ td {
 }
 
 .king.red-piece {
-    background-color: orange;
+    background-color: rgb(224, 74, 19);
     background-image: url(./assets/images/crownn.png);
 }
 
 .king.black-piece {
-    background-color: purple;
+    background-color: rgb(94, 9, 94);
     background-image: url(./assets/images/crownn.png);
 }
 
@@ -114,28 +114,4 @@ span {
 
 #startP {
     font-size: 10vh;
-}
-
-#red {
-    font-size: 100px;
-    padding-top: 100px;
-}
-
-.rainbow_text_animated {
-    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: rainbow_animation 6s ease-in-out infinite;
-    background-size: 400% 100%;
-}
-
-@keyframes rainbow_animation {
-    0%,100% {
-        background-position: 0 0;
-    }
-
-    50% {
-        background-position: 100% 0;
-    }
 }
