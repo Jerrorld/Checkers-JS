@@ -3,6 +3,7 @@ var chime2 = new Audio("./assets/sounds/chime2.wav");
     chime1.volume = 0.4;
     chime2.volume = 0.4;
 var myMusic = new Audio("./assets/sounds/pianoloop.mp3");
+    myMusic.loop = true;
     myMusic.volume = 0.7;
 var isPlaying = false;
 
@@ -53,7 +54,7 @@ const redTurnText = document.querySelectorAll(".red-turn-text");
 const blackTurnText = document.querySelectorAll(".black-turn-text");
 const divider = document.getElementById("divider");
 
-//properties player
+//properties of player
 let turn = true;
 let redScore = 12;
 let blackScore =12;
@@ -104,7 +105,7 @@ function removeCellonclick() {
     }
 }
 
-
+// removes highlight after making moves
 function resetBorders() {
     for (let i = 0; i < playerPieces.length; i++) {
         playerPieces[i].style.border = "3px solid black"
@@ -301,7 +302,6 @@ function makeMove(number) {
     }
 }
 
-
 function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
     board[indexOfBoardPiece] = null;
     board[modifiedIndex] = parseInt(selectedPiece.pieceId);
@@ -350,8 +350,9 @@ function checkForWin() {
             blackTurnText[i].style.display = "none";
             redTurnText[i].textContent = "RED WINS!";
             redTurnText[i].style.boxShadow = "5px 5px 0 black, -5px -5px 0 black";
-            redTurnText[i].classList.add("rainbow_text_animated")
+            redTurnText[i].classList.add("rainbow_text_animated");
             victory.play();
+            myMusic.pause();
         }
     } else if (redScore === 0) {
         divider.style.display = "none";
@@ -360,16 +361,17 @@ function checkForWin() {
             redTurnText[i].style.color="black"
             redTurnText[i].style.display = "none";
             blackTurnText[i].textContent = "BLACK WINS!";
-            blackTurnText[i].style.boxShadow = "5px 5px 0 black, -5px -5px 0 black";
-            blackTurnText[i].classList.add("rainbow_text_animated")
-            victory.play()
+            blackTurnText[i].style.boxShadow = "5px 5px 0 black, -5px -5px 0 black, 5px -5px 0 black, -5px 5px 0 black";
+            blackTurnText[i].classList.add("rainbow_text_animated");
+            victory.play();
+            myMusic.pause();
         }
     } else {
     changePlayer();
     }
 }
 
-// shows who's turn it is
+// shows whose turn it is
 function changePlayer() {
     if (turn) {
         turn = false;
